@@ -1,0 +1,38 @@
+name: Lavagna del giorno
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # ogni 10 minuti (GitHub può ritardare di qualche minuto)
+  workflow_dispatch:          # tasto "Run workflow" per lanciarla a mano
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  genera:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install gtfs-realtime-bindings
+      - run: python genera.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+  pubblica:
+    needs: genera
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
