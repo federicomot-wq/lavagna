@@ -16,8 +16,6 @@ TZ = zoneinfo.ZoneInfo("Europe/Rome")
 NOW = dt.datetime.now(TZ)
 
 # --- Dati della struttura (modifica qui) ---
-WIFI_NOME = "SunnyCorner"
-WIFI_PASS = "cambiami"
 LAT, LON = 41.887, 12.513   # San Giovanni, Roma
 
 UA = {"User-Agent": "Mozilla/5.0 (lavagna-bnb)"}
@@ -38,33 +36,33 @@ GRP = {0:"sereno",1:"poco_nuv",2:"nuvoloso",3:"coperto",45:"nebbia",48:"nebbia",
        71:"neve",73:"neve",75:"neve",80:"rovesci",81:"rovesci",82:"temporale",95:"temporale",96:"temporale",99:"temporale"}
 T = {
  "it":{"sereno":"Sereno","poco_nuv":"Poco nuvoloso","nuvoloso":"Nuvoloso","coperto":"Coperto","nebbia":"Nebbia","pioviggine":"Pioviggine","pioggia":"Pioggia","pioggia_f":"Pioggia forte","neve":"Neve","rovesci":"Rovesci","temporale":"Temporale",
-   "titolo":"Oggi a Roma","meteo":"Meteo Roma · ora","min":"min","max":"max","pioggia_p":"pioggia","vento":"vento","alba":"Alba","tramonto":"Tramonto","prossime":"Probabilità di pioggia nelle prossime ore","domani":"Domani","metro":"Metro","regolare":"Servizio regolare","nd":"dati non disponibili","vicino":"San Giovanni e Manzoni (linea A) a 5 minuti a piedi","treni":"Partenze da Roma Termini","termini":"Termini: metro A, 2 fermate","orario":"in orario","info":"Informazioni","wifi":"Wi-Fi","pw":"Password","colazione":"Colazione","agg":"Aggiornato alle",
+   "titolo":"Oggi a Roma","meteo":"Meteo Roma · ora","min":"min","max":"max","pioggia_p":"pioggia","vento":"vento","alba":"Alba","tramonto":"Tramonto","percepita":"percepita","umidita":"umidità","raffiche":"raffiche","uv":"UV","dopodomani":"Dopodomani","prossime":"Prossime ore: temperatura e probabilità di pioggia","domani":"Domani","metro":"Metro","regolare":"Servizio regolare","nd":"dati non disponibili","vicino":"San Giovanni e Manzoni (linea A) a 5 minuti a piedi","treni":"Partenze da Roma Termini","termini":"Termini: metro A, 2 fermate","orario":"in orario","info":"Informazioni","wifi":"Wi-Fi","pw":"Password","colazione":"Colazione","agg":"Aggiornato alle",
    "giorni":["lunedì","martedì","mercoledì","giovedì","venerdì","sabato","domenica"],"mesi":["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"]},
  "en":{"sereno":"Clear","poco_nuv":"Partly cloudy","nuvoloso":"Cloudy","coperto":"Overcast","nebbia":"Fog","pioviggine":"Drizzle","pioggia":"Rain","pioggia_f":"Heavy rain","neve":"Snow","rovesci":"Showers","temporale":"Thunderstorm",
-   "titolo":"Rome today","meteo":"Rome weather · now","min":"low","max":"high","pioggia_p":"rain","vento":"wind","alba":"Sunrise","tramonto":"Sunset","prossime":"Chance of rain in the next hours","domani":"Tomorrow","metro":"Metro","regolare":"Running normally","nd":"no data","vicino":"San Giovanni and Manzoni (line A) 5 minutes on foot","treni":"Departures from Roma Termini","termini":"Termini: metro A, 2 stops","orario":"on time","info":"Information","wifi":"Wi-Fi","pw":"Password","colazione":"Breakfast","agg":"Updated at",
+   "titolo":"Rome today","meteo":"Rome weather · now","min":"low","max":"high","pioggia_p":"rain","vento":"wind","alba":"Sunrise","tramonto":"Sunset","percepita":"feels like","umidita":"humidity","raffiche":"gusts","uv":"UV","dopodomani":"Day after tomorrow","prossime":"Next hours: temperature and chance of rain","domani":"Tomorrow","metro":"Metro","regolare":"Running normally","nd":"no data","vicino":"San Giovanni and Manzoni (line A) 5 minutes on foot","treni":"Departures from Roma Termini","termini":"Termini: metro A, 2 stops","orario":"on time","info":"Information","wifi":"Wi-Fi","pw":"Password","colazione":"Breakfast","agg":"Updated at",
    "giorni":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"mesi":["January","February","March","April","May","June","July","August","September","October","November","December"]},
  "fr":{"sereno":"Dégagé","poco_nuv":"Peu nuageux","nuvoloso":"Nuageux","coperto":"Couvert","nebbia":"Brouillard","pioviggine":"Bruine","pioggia":"Pluie","pioggia_f":"Forte pluie","neve":"Neige","rovesci":"Averses","temporale":"Orage",
-   "titolo":"Rome aujourd'hui","meteo":"Météo Rome · maintenant","min":"min","max":"max","pioggia_p":"pluie","vento":"vent","alba":"Lever","tramonto":"Coucher","prossime":"Risque de pluie dans les prochaines heures","domani":"Demain","metro":"Métro","regolare":"Service normal","nd":"données indisponibles","vicino":"San Giovanni et Manzoni (ligne A) à 5 minutes à pied","treni":"Départs de Roma Termini","termini":"Termini : métro A, 2 arrêts","orario":"à l'heure","info":"Informations","wifi":"Wi-Fi","pw":"Mot de passe","colazione":"Petit-déjeuner","agg":"Mis à jour à",
+   "titolo":"Rome aujourd'hui","meteo":"Météo Rome · maintenant","min":"min","max":"max","pioggia_p":"pluie","vento":"vent","alba":"Lever","tramonto":"Coucher","percepita":"ressenti","umidita":"humidité","raffiche":"rafales","uv":"UV","dopodomani":"Après-demain","prossime":"Prochaines heures : température et risque de pluie","domani":"Demain","metro":"Métro","regolare":"Service normal","nd":"données indisponibles","vicino":"San Giovanni et Manzoni (ligne A) à 5 minutes à pied","treni":"Départs de Roma Termini","termini":"Termini : métro A, 2 arrêts","orario":"à l'heure","info":"Informations","wifi":"Wi-Fi","pw":"Mot de passe","colazione":"Petit-déjeuner","agg":"Mis à jour à",
    "giorni":["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"],"mesi":["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"]},
  "de":{"sereno":"Klar","poco_nuv":"Leicht bewölkt","nuvoloso":"Bewölkt","coperto":"Bedeckt","nebbia":"Nebel","pioviggine":"Nieselregen","pioggia":"Regen","pioggia_f":"Starker Regen","neve":"Schnee","rovesci":"Schauer","temporale":"Gewitter",
-   "titolo":"Rom heute","meteo":"Wetter Rom · jetzt","min":"min","max":"max","pioggia_p":"Regen","vento":"Wind","alba":"Sonnenaufgang","tramonto":"Sonnenuntergang","prossime":"Regenwahrscheinlichkeit in den nächsten Stunden","domani":"Morgen","metro":"U-Bahn","regolare":"Normaler Betrieb","nd":"keine Daten","vicino":"San Giovanni und Manzoni (Linie A) 5 Minuten zu Fuß","treni":"Abfahrten Roma Termini","termini":"Termini: Metro A, 2 Stationen","orario":"pünktlich","info":"Informationen","wifi":"WLAN","pw":"Passwort","colazione":"Frühstück","agg":"Aktualisiert um",
+   "titolo":"Rom heute","meteo":"Wetter Rom · jetzt","min":"min","max":"max","pioggia_p":"Regen","vento":"Wind","alba":"Sonnenaufgang","tramonto":"Sonnenuntergang","percepita":"gefühlt","umidita":"Luftfeuchte","raffiche":"Böen","uv":"UV","dopodomani":"Übermorgen","prossime":"Nächste Stunden: Temperatur und Regenwahrscheinlichkeit","domani":"Morgen","metro":"U-Bahn","regolare":"Normaler Betrieb","nd":"keine Daten","vicino":"San Giovanni und Manzoni (Linie A) 5 Minuten zu Fuß","treni":"Abfahrten Roma Termini","termini":"Termini: Metro A, 2 Stationen","orario":"pünktlich","info":"Informationen","wifi":"WLAN","pw":"Passwort","colazione":"Frühstück","agg":"Aktualisiert um",
    "giorni":["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"],"mesi":["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"]},
  "es":{"sereno":"Despejado","poco_nuv":"Poco nuboso","nuvoloso":"Nuboso","coperto":"Cubierto","nebbia":"Niebla","pioviggine":"Llovizna","pioggia":"Lluvia","pioggia_f":"Lluvia fuerte","neve":"Nieve","rovesci":"Chubascos","temporale":"Tormenta",
-   "titolo":"Roma hoy","meteo":"Tiempo en Roma · ahora","min":"mín","max":"máx","pioggia_p":"lluvia","vento":"viento","alba":"Amanecer","tramonto":"Atardecer","prossime":"Probabilidad de lluvia en las próximas horas","domani":"Mañana","metro":"Metro","regolare":"Servicio normal","nd":"sin datos","vicino":"San Giovanni y Manzoni (línea A) a 5 minutos a pie","treni":"Salidas desde Roma Termini","termini":"Termini: metro A, 2 paradas","orario":"puntual","info":"Información","wifi":"Wi-Fi","pw":"Contraseña","colazione":"Desayuno","agg":"Actualizado a las",
+   "titolo":"Roma hoy","meteo":"Tiempo en Roma · ahora","min":"mín","max":"máx","pioggia_p":"lluvia","vento":"viento","alba":"Amanecer","tramonto":"Atardecer","percepita":"sensación","umidita":"humedad","raffiche":"rachas","uv":"UV","dopodomani":"Pasado mañana","prossime":"Próximas horas: temperatura y probabilidad de lluvia","domani":"Mañana","metro":"Metro","regolare":"Servicio normal","nd":"sin datos","vicino":"San Giovanni y Manzoni (línea A) a 5 minutos a pie","treni":"Salidas desde Roma Termini","termini":"Termini: metro A, 2 paradas","orario":"puntual","info":"Información","wifi":"Wi-Fi","pw":"Contraseña","colazione":"Desayuno","agg":"Actualizado a las",
    "giorni":["lunes","martes","miércoles","jueves","viernes","sábado","domingo"],"mesi":["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]},
 }
 LINGUE = ["it","en","fr","de","es"]
-COLAZIONE_T = {"it":"dalle 7 alle 10 al bar convenzionato","en":"7 to 10 a.m. at our partner café","fr":"de 7 h à 10 h au café partenaire","de":"7 bis 10 Uhr im Partner-Café","es":"de 7 a 10 en la cafetería asociada"}
+COLAZIONE_T = {"it":"dalle 8.00 alle 11.00 al forno artigianale <b>A QUO</b>","en":"8 to 11 a.m. at the artisan bakery <b>A QUO</b>","fr":"de 8 h à 11 h à la boulangerie artisanale <b>A QUO</b>","de":"8 bis 11 Uhr in der Handwerksbäckerei <b>A QUO</b>","es":"de 8.00 a 11.00 en la panadería artesanal <b>A QUO</b>"}
 ICONA = {"sereno":"☀️","poco_nuv":"🌤","nuvoloso":"⛅","coperto":"☁️","nebbia":"🌫","pioviggine":"🌦","pioggia":"🌧","pioggia_f":"🌧","neve":"🌨","rovesci":"🌦","temporale":"⛈"}
 
 
 def meteo():
     url = ("https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s"
-           "&current=temperature_2m,weather_code,wind_speed_10m"
+           "&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_gusts_10m"
            "&hourly=precipitation_probability,temperature_2m"
            "&daily=weather_code,temperature_2m_max,temperature_2m_min,"
-           "precipitation_probability_max,sunrise,sunset"
-           "&timezone=Europe%%2FRome&forecast_days=2") % (LAT, LON)
+           "precipitation_probability_max,sunrise,sunset,uv_index_max"
+           "&timezone=Europe%%2FRome&forecast_days=3") % (LAT, LON)
     d = get(url)
     cur = d["current"]
     g = GRP.get(cur["weather_code"], "nuvoloso")
@@ -73,12 +71,16 @@ def meteo():
     probs = d["hourly"]["precipitation_probability"]
     idx = next((i for i, t in enumerate(hours)
                 if dt.datetime.fromisoformat(t).replace(tzinfo=TZ) >= NOW), 0)
-    prossime = [(hours[i][11:16], probs[i]) for i in range(idx, min(idx + 6, len(hours)))]
+    temps = d["hourly"]["temperature_2m"]
+    prossime = [(hours[i][11:16], probs[i], round(temps[i])) for i in range(idx, min(idx + 8, len(hours)))]
     dom = d["daily"]
     gd = GRP.get(dom["weather_code"][1], "nuvoloso")
+    gd2 = GRP.get(dom["weather_code"][2], "nuvoloso")
     return {
         "temp": round(cur["temperature_2m"]), "g": g, "icon": ICONA[g],
-        "vento": round(cur["wind_speed_10m"]),
+        "vento": round(cur["wind_speed_10m"]), "raffiche": round(cur["wind_gusts_10m"]),
+        "percepita": round(cur["apparent_temperature"]), "umidita": cur["relative_humidity_2m"],
+        "uv": round(dom["uv_index_max"][0]),
         "oggi_max": round(dom["temperature_2m_max"][0]),
         "oggi_min": round(dom["temperature_2m_min"][0]),
         "oggi_pioggia": dom["precipitation_probability_max"][0],
@@ -87,6 +89,10 @@ def meteo():
                    "max": round(dom["temperature_2m_max"][1]),
                    "min": round(dom["temperature_2m_min"][1]),
                    "pioggia": dom["precipitation_probability_max"][1]},
+        "dopodomani": {"g": gd2, "icon": ICONA[gd2],
+                       "max": round(dom["temperature_2m_max"][2]),
+                       "min": round(dom["temperature_2m_min"][2]),
+                       "pioggia": dom["precipitation_probability_max"][2]},
         "prossime": prossime,
     }
 
@@ -174,6 +180,7 @@ body{padding:28px 36px;display:-webkit-flex;display:flex;-webkit-flex-direction:
 .ore{display:-webkit-flex;display:flex;margin-top:12px}
 .ore div{-webkit-flex:1;flex:1;text-align:center;font-size:15px;color:#9fb0d6}
 .ore b{display:block;font-size:20px;color:#eef2ff;font-weight:500}
+.ore i{display:block;font-style:normal;font-size:14px;color:#7fb3ff}
 .linea{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;margin:9px 0}
 .pill{width:46px;height:46px;border-radius:23px;font-size:24px;font-weight:700;text-align:center;line-height:46px;margin-right:14px;color:#fff}
 .A{background:#e0521f}.B{background:#1f66c7}.C{background:#2a9d4c}
@@ -195,19 +202,22 @@ def esc(s):
 def card_meteo(m, L):
     if not m:
         return '<div class="card"><h2>%s</h2><p class="err">%s</p></div>' % (L["meteo"], L["nd"])
-    ore = "".join('<div>%s<b>%s%%</b></div>' % (esc(h), esc(p)) for h, p in m["prossime"])
+    ore = "".join('<div>%s<b>%s&deg;</b><i>%s%%</i></div>' % (esc(h), esc(t), esc(p)) for h, p, t in m["prossime"])
     return """<div class="card"><h2>%s</h2>
 <div class="big">%s<small>%s&deg;C</small></div>
 <div class="desc">%s</div>
-<div class="sub">%s %s&deg; / %s %s&deg; &middot; %s %s%% &middot; %s %s km/h<br>
-%s %s &middot; %s %s</div>
+<div class="sub">%s %s&deg; &middot; %s %s%% &middot; %s %s km/h (%s %s) &middot; %s %s<br>
+%s %s&deg; / %s %s&deg; &middot; %s %s%% &middot; %s %s &middot; %s %s</div>
 <div class="sub" style="margin-top:12px;color:#9fb0d6">%s</div>
 <div class="ore">%s</div>
-<div class="sub" style="margin-top:14px"><b>%s:</b> %s %s, %s %s&deg; / %s %s&deg;, %s %s%%</div>
-</div>""" % (L["meteo"], m["icon"], m["temp"], L[m["g"]], L["min"], m["oggi_min"], L["max"], m["oggi_max"],
-             L["pioggia_p"], m["oggi_pioggia"], L["vento"], m["vento"], L["alba"], m["alba"], L["tramonto"], m["tramonto"],
-             L["prossime"], ore, L["domani"], m["domani"]["icon"], L[m["domani"]["g"]], L["min"], m["domani"]["min"],
-             L["max"], m["domani"]["max"], L["pioggia_p"], m["domani"]["pioggia"])
+<div class="sub" style="margin-top:14px"><b>%s:</b> %s %s, %s&deg; / %s&deg;, %s %s%%<br>
+<b>%s:</b> %s %s, %s&deg; / %s&deg;, %s %s%%</div>
+</div>""" % (L["meteo"], m["icon"], m["temp"], L[m["g"]],
+             L["percepita"], m["percepita"], L["umidita"], m["umidita"], L["vento"], m["vento"], L["raffiche"], m["raffiche"], L["uv"], m["uv"],
+             L["min"], m["oggi_min"], L["max"], m["oggi_max"], L["pioggia_p"], m["oggi_pioggia"], L["alba"], m["alba"], L["tramonto"], m["tramonto"],
+             L["prossime"], ore,
+             L["domani"], m["domani"]["icon"], L[m["domani"]["g"]], m["domani"]["min"], m["domani"]["max"], L["pioggia_p"], m["domani"]["pioggia"],
+             L["dopodomani"], m["dopodomani"]["icon"], L[m["dopodomani"]["g"]], m["dopodomani"]["min"], m["dopodomani"]["max"], L["pioggia_p"], m["dopodomani"]["pioggia"])
 
 
 def card_metro(mt, L):
@@ -252,6 +262,7 @@ def pagina(m, mt, tr, lang, succ):
 <meta http-equiv="refresh" content="20;url=%s">
 <meta name="viewport" content="width=1024">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>SunnyCorner</title>
 <style>%s</style></head>
 <body>
@@ -260,13 +271,12 @@ def pagina(m, mt, tr, lang, succ):
 <div class="row">%s%s</div>
 <div class="row">%s
 <div class="card"><h2>%s</h2>
-<div class="sub" style="font-size:22px">%s: <b>%s</b><br>%s: <b>%s</b></div>
-<div class="sub" style="margin-top:14px;font-size:20px">%s: %s</div>
+<div class="sub" style="font-size:22px">%s: %s</div>
 </div></div>
 <div class="foot"><span>%s %s &middot; %s</span><span>Open-Meteo &middot; Roma Mobilit&agrave; &middot; Trenitalia</span></div>
 </body></html>""" % (lang, succ, CSS, L["titolo"], esc(data), NOW.strftime("%H:%M"), card_meteo(m, L), card_metro(mt, L),
-                     card_treni(tr, L), L["info"], L["wifi"], esc(WIFI_NOME), L["pw"], esc(WIFI_PASS),
-                     L["colazione"], esc(COLAZIONE_T[lang]), L["agg"], NOW.strftime("%H:%M"),
+                     card_treni(tr, L), L["info"],
+                     L["colazione"], COLAZIONE_T[lang], L["agg"], NOW.strftime("%H:%M"),
                      " &middot; ".join(x.upper() if x == lang else x for x in LINGUE))
 
 
