@@ -97,6 +97,52 @@ def meteo():
     }
 
 
+# ---------------- TRADUZIONE AVVISI (MyMemory, gratuita; cache su disco) ----------------
+import os
+CACHE_FILE = "cache/traduzioni.json"
+try:
+    with open(CACHE_FILE, encoding="utf-8") as fh:
+        CACHE = json.load(fh)
+except Exception:
+    CACHE = {}
+
+
+def salva_cache():
+    os.makedirs("cache", exist_ok=True)
+    with open(CACHE_FILE, "w", encoding="utf-8") as fh:
+        json.dump(CACHE, fh, ensure_ascii=False, indent=0)
+
+
+def normalizza(testo):
+    # ATAC scrive spesso tutto maiuscolo: i traduttori lavorano male, riporto a frase normale
+    lettere = [c for c in testo if c.isalpha()]
+    if lettere and sum(c.isupper() for c in lettere) / len(lettere) > 0.7:
+        testo = testo.lower()
+        testo = ". ".join(p.strip().capitalize() for p in testo.split(". "))
+        testo = testo.replace("metro a", "Metro A").replace("metro b", "Metro B").replace("metro c", "Metro C")
+    return testo
+
+
+def traduci(testo, lang):
+    if lang == "it" or not testo:
+        return testo
+    k = lang + "|" + testo
+    if k in CACHE:
+        return CACHE[k]
+    try:
+        url = ("https://api.mymemory.translated.net/get?q=%s&langpair=it|%s"
+               % (urllib.request.quote(testo), lang))
+        d = get(url)
+        t = (d.get("responseData") or {}).get("translatedText") or ""
+        if str(d.get("responseStatus")) == "200" and t and "MYMEMORY WARNING" not in t.upper():
+            CACHE[k] = t
+            return t
+        print("ATTENZIONE traduzione %s: %s" % (lang, d.get("responseDetails")), file=sys.stderr)
+    except Exception as e:
+        print("ATTENZIONE traduzione %s: %s" % (lang, e), file=sys.stderr)
+    return testo  # meglio l'italiano che niente
+
+
 # ---------------- METRO (Roma Mobilità, GTFS-RT service alerts) ----------------
 ALERTS_URL = "https://romamobilita.it/sites/default/files/rome_rtgtfs_service_alerts_feed.pb"
 
@@ -118,7 +164,13 @@ def metro():
                 break
         if not testo and a.header_text.translation:
             testo = a.header_text.translation[0].text
-        testo = " ".join(testo.split())
+        testo = normalizza(" ".join(testo.split()))[:160]
+        # traduzioni gia' presenti nel feed (raramente)
+        trad = {}
+        for t in a.header_text.translation:
+            if t.language and t.language != "it" and t.text:
+                trad[t.language[:2]] = " ".join(t.text.split())[:160]
+        voce = {"it": testo, "trad": trad}
         # a quali linee si riferisce
         linee = set()
         for ie in a.informed_entity:
@@ -135,9 +187,9 @@ def metro():
                 linee.add(k)
         if linee:
             for k in linee:
-                stato[k].append(testo)
+                stato[k].append(voce)
         elif "SCIOPERO" in up or "STRIKE" in up:
-            altri.append(testo)
+            altri.append(voce)
     return {"linee": stato, "altri": altri[:3]}
 
 
@@ -220,19 +272,23 @@ def card_meteo(m, L):
              L["dopodomani"], m["dopodomani"]["icon"], L[m["dopodomani"]["g"]], m["dopodomani"]["min"], m["dopodomani"]["max"], L["pioggia_p"], m["dopodomani"]["pioggia"])
 
 
-def card_metro(mt, L):
+def testo_avviso(voce, lang):
+    return voce["trad"].get(lang) or traduci(voce["it"], lang)
+
+
+def card_metro(mt, L, lang):
     righe = []
     for k in ("A", "B", "C"):
         if not mt:
             st = '<span class="err">%s</span>' % L["nd"]
         elif mt["linee"][k]:
-            st = '<span class="ko">%s</span>' % esc(mt["linee"][k][0][:160])
+            st = '<span class="ko">%s</span>' % esc(testo_avviso(mt["linee"][k][0], lang))
         else:
             st = '<span class="ok">%s</span>' % L["regolare"]
         righe.append('<div class="linea"><div class="pill %s">%s</div><div>%s</div></div>' % (k, k, st))
     extra = ""
     if mt and mt["altri"]:
-        extra = '<div class="sub ko">%s</div>' % esc(mt["altri"][0][:200])
+        extra = '<div class="sub ko">%s</div>' % esc(testo_avviso(mt["altri"][0], lang))
     return ('<div class="card"><h2>%s</h2>%s%s'
             '<div class="sub" style="margin-top:14px">%s</div></div>'
             % (L["metro"], "".join(righe), extra, L["vicino"]))
@@ -274,7 +330,7 @@ def pagina(m, mt, tr, lang, succ):
 <div class="sub" style="font-size:22px">%s: %s</div>
 </div></div>
 <div class="foot"><span>%s %s &middot; %s</span><span>Open-Meteo &middot; Roma Mobilit&agrave; &middot; Trenitalia</span></div>
-</body></html>""" % (lang, succ, CSS, L["titolo"], esc(data), NOW.strftime("%H:%M"), card_meteo(m, L), card_metro(mt, L),
+</body></html>""" % (lang, succ, CSS, L["titolo"], esc(data), NOW.strftime("%H:%M"), card_meteo(m, L), card_metro(mt, L, lang),
                      card_treni(tr, L), L["info"],
                      L["colazione"], COLAZIONE_T[lang], L["agg"], NOW.strftime("%H:%M"),
                      " &middot; ".join(x.upper() if x == lang else x for x in LINGUE))
@@ -298,4 +354,5 @@ if __name__ == "__main__":
         succ = "index.html" if nxt == "it" else nxt + ".html"
         with open("docs/" + nome, "w", encoding="utf-8") as fh:
             fh.write(pagina(m, mt, tr, lang, succ))
+    salva_cache()
     print("docs/index.html generata alle", NOW.strftime("%H:%M"))
